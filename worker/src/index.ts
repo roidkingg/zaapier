@@ -55,7 +55,7 @@ async function main() {
               },
             }
           });
-          const currentAction = zapRunDetails?.zap.actions.find(x => x.sortingOrder === stage);
+          const currentAction = zapRunDetails?.zap.actions.find((x: any) => x.sortingOrder === stage);
 
           if (!currentAction) {
             console.log("Current action not found?");
@@ -80,7 +80,7 @@ async function main() {
           }
           
           // 
-          await new Promise((resolve: () => void) => setTimeout(resolve, 500));
+          await new Promise((resolve: (value?: any) => void) => setTimeout(resolve, 500));
 
           const lastStage = (zapRunDetails?.zap.actions?.length || 1) - 1; // 1
           console.log(lastStage);
