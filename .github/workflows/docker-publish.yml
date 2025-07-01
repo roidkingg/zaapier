@@ -29,4 +29,8 @@ jobs:
           context: ./${{ matrix.service }}
           file: ./${{ matrix.service }}/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/zaapier-${{ matrix.service }}:latest 
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/zaapier-${{ matrix.service }}:latest
+      
+      - name: Verify push success
+        run: |
+          echo "Successfully pushed ${{ secrets.DOCKERHUB_USERNAME }}/zaapier-${{ matrix.service }}:latest to Docker Hub" 
