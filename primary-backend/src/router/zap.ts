@@ -18,7 +18,7 @@ router.post("/", authMiddleware, async (req, res) => {
         });
     }   
 
-    const zapId = await prismaClient.$transaction(async tx => {
+    const zapId = await prismaClient.$transaction(async (tx: any) => {
         const zap = await prismaClient.zap.create({
             data: {
                 userId: parseInt(id),
