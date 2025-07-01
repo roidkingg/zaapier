@@ -1,9 +1,9 @@
-FROM node:20-alpine
+FROM node:20-slim
 
 WORKDIR /app
 
 # Install libssl1.1 for Prisma
-RUN apk add --no-cache openssl1.1
+
 
 # Copy package files
 COPY package*.json ./
