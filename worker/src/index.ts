@@ -12,7 +12,7 @@ const TOPIC_NAME = "zap-events"
 
 const kafka = new Kafka({
     clientId: 'outbox-processor-2',
-    brokers: ['localhost:9092']
+    brokers: [process.env.KAFKA_BROKER || 'kafka:9092']
 })
 
 async function main() {
