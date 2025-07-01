@@ -1,4 +1,7 @@
-FROM node:20-slim
+FROM node:20-alpine
+
+# Install OpenSSL and other required dependencies
+RUN apk add --no-cache openssl libssl1.1
 
 WORKDIR /app
 

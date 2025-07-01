@@ -1,9 +1,9 @@
-FROM node:20-slim
+FROM node:20-alpine
+
+# Install OpenSSL and other required dependencies
+RUN apk add --no-cache openssl libssl1.1
 
 WORKDIR /app
-
-# Install libssl1.1 for Prisma
-
 
 # Copy package files
 COPY package*.json ./
@@ -21,7 +21,7 @@ RUN npx prisma generate
 RUN npm run build
 
 # Expose port
-EXPOSE 3002
+EXPOSE 3000
 
 # Start the application
 CMD ["npm", "start"]
