@@ -1,3 +1,4 @@
+// eslint-disable-next-line @next/next/no-img-element
 "use client"
 import { Appbar } from "@/components/Appbar";
 import { DarkButton } from "@/components/buttons/DarkButton";

@@ -162,24 +162,24 @@ function Modal({ index, onSelect, availableItems }: { index: number, onSelect: (
                     }} />}
 
                     {step === 0 && <div>{availableItems.map(({id, name, image}, itemIndex) => {
-                            return <div onClick={() => {
-                                if (isTrigger) {
-                                    onSelect({
-                                        id,
-                                        name,
-                                        metadata: {}
-                                    })
-                                } else {
-                                    setStep(s => s + 1);
-                                    setSelectedAction({
-                                        id,
-                                        name
-                                    })
-                                }
-                            }} className="flex border p-4 cursor-pointer hover:bg-slate-100">
-                                <img src={image} width={30} className="rounded-full" alt={name} /> <div className="flex flex-col justify-center"> {name} </div>
-                            </div>
-                        })}</div>}                    
+                        return <div key={id} onClick={() => {
+                            if (isTrigger) {
+                                onSelect({
+                                    id,
+                                    name,
+                                    metadata: {}
+                                })
+                            } else {
+                                setStep(s => s + 1);
+                                setSelectedAction({
+                                    id,
+                                    name
+                                })
+                            }
+                        }} className="flex border p-4 cursor-pointer hover:bg-slate-100">
+                            <img src={image} width={30} className="rounded-full" alt={name} /> <div className="flex flex-col justify-center"> {name} </div>
+                        </div>
+                    })}</div>}                    
                 </div>
             </div>
         </div>
