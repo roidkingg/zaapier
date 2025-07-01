@@ -3,6 +3,10 @@ FROM node:20-alpine
 # Install OpenSSL and other required dependencies
 RUN apk add --no-cache openssl libssl3
 
+# Install wait-for-it script
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
 WORKDIR /app
 
 # Copy package files
@@ -23,5 +27,5 @@ RUN npm run build
 # Worker is a Kafka consumer, no HTTP server
 # No port exposure needed
 
-# Start the application
-CMD ["npm", "start"]
+# Start the application with wait-for-it
+CMD ["/wait-for-it.sh", "kafka:9092", "--", "npm", "start"]

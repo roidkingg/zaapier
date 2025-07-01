@@ -6,6 +6,11 @@ services:
       - "2181:2181"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    healthcheck:
+      test: ["CMD-SHELL", "echo ruok | nc localhost 2181 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   kafka:
     image: wurstmeister/kafka:2.13-2.8.1
@@ -18,7 +23,13 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-topics.sh --bootstrap-server localhost:9092 --list || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   frontend:
     image: aryanrarh/zaapier-frontend:latest
@@ -27,7 +38,8 @@ services:
     env_file:
       - frontend.env
     depends_on:
-      - primary-backend
+      primary-backend:
+        condition: service_started
 
   primary-backend:
     image: aryanrarh/zaapier-primary-backend:latest
@@ -36,7 +48,8 @@ services:
     env_file:
       - primary-backend.env
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
 
   hooks:
     image: aryanrarh/zaapier-hooks:latest
@@ -45,7 +58,8 @@ services:
     env_file:
       - hooks.env
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
 
   processor:
     image: aryanrarh/zaapier-processor:latest
@@ -54,14 +68,16 @@ services:
     env_file:
       - processor.env
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
 
   worker:
     image: aryanrarh/zaapier-worker:latest
     env_file:
       - worker.env
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
 
   watchtower:
     image: containrrr/watchtower:latest
