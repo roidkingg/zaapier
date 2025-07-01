@@ -80,7 +80,7 @@ async function main() {
           }
           
           // 
-          await new Promise(r => setTimeout(r, 500));
+          await new Promise((resolve: () => void) => setTimeout(resolve, 500));
 
           const lastStage = (zapRunDetails?.zap.actions?.length || 1) - 1; // 1
           console.log(lastStage);
